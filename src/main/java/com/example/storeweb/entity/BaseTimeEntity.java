@@ -1,9 +1,11 @@
 package com.example.storeweb.entity;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,7 +18,10 @@ import lombok.Getter;
 @Getter
 public class BaseTimeEntity {
     @CreatedDate
-    private LocalDateTime createdDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
+    
     @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModifiedDate;
 }

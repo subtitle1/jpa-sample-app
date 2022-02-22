@@ -19,16 +19,16 @@ import lombok.Setter;
 public class CartItem extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cart_item_no")
+    @Column(name = "cart_item_id")
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "cart_id", nullable = false)
-    private Cart cart;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
+    
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
     
     @Column(name = "cart_item_quantity")
     private int quantity;

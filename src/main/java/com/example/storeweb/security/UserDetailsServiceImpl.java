@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		Optional<Member> optional = memberRepository.findByEmail(email);
 		Member member = optional.orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
 		
-		return new UserDetailsImpl(member, this.getAuthorities(member.getRole()));
+		return new User(member, this.getAuthorities(member.getRole()));
 	}
 	
 	private Collection<? extends GrantedAuthority> getAuthorities(Role role) {

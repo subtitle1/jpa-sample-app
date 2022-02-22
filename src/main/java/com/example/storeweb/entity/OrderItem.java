@@ -20,7 +20,7 @@ public class OrderItem extends BaseTimeEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_item_no")
+    @Column(name = "order_item_id")
     private Long id;
 
     @ManyToOne
