@@ -1,5 +1,9 @@
 package com.example.storeweb.repository;
 
-public class OrderRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.storeweb.entity.Order;
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
     
 }

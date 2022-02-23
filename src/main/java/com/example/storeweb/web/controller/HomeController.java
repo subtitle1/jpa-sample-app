@@ -17,7 +17,9 @@ import com.example.storeweb.service.MemberService;
 import com.example.storeweb.web.form.MemberRegisterForm;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Controller
 public class HomeController {
@@ -27,18 +29,23 @@ public class HomeController {
 	
     @GetMapping("/")
     public String home() {
+    	log.info("홈 페이지 조회");
         return "/home";
     }
 
     @GetMapping("/register")
     public String registerForm(Model model) {
+    	log.info("회원가입 페이지 조회");
+    	
     	model.addAttribute("memberRegisterForm", new MemberRegisterForm());
         return "registerForm";
     }
 
     @PostMapping("/register")
     public String register(@ModelAttribute(name = "memberRegisterForm") @Valid MemberRegisterForm form, BindingResult errors) {
+    	log.info("회원 가입하기");
     	if (errors.hasErrors()) {
+    		log.warn("폼입력값 유효성 오류 발생");
     		return "registerForm";
     	}
     	try {
@@ -51,6 +58,7 @@ public class HomeController {
     				.enabled(true).build();
     		memberService.saveMember(member);
     	} catch (StoreException e) {
+    		log.warn("아이디 중복 오류 발생");
     		errors.rejectValue("email", null, e.getMessage());
     		return "registerForm";
     	}
@@ -59,11 +67,13 @@ public class HomeController {
 
     @GetMapping("/completed")
     public String registerCompleted() {
+    	log.info("회원가입 완료 페이지 요청");
         return "completed";
     }
 
     @GetMapping("/login")
     public String loginForm() {
+    	log.info("로그인 폼 페이지 요청");
         return "loginForm";
     }
 }

@@ -5,6 +5,7 @@
 		<ul class="navbar-nav me-auto">
 			<li class="nav-item"><a class="nav-link ${menu eq 'home' ? 'active' : '' }" href="/">홈</a></li>
 			<li class="nav-item"><a class="nav-link ${menu eq 'book' ? 'active' : '' }" href="/book/list">책</a></li>
+			<li class="nav-item"><a class="nav-link ${menu eq 'cart' ? 'active' : '' }" href="/cart/list">장바구니</a></li>
 		</ul>
 		<sec:authorize access="isAuthenticated()">
 			<sec:authentication property="principal" var="user"/>

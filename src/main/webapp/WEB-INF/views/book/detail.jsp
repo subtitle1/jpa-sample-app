@@ -104,14 +104,13 @@
 </div>
 <script type="text/javascript">
 $(function() {
+	// 수량입력필드를 선택해서 변수에 미리 저장한다.
 	var $quantityField = $("#form-order :input[name=quantity]");
 
+	// 수량의 마이너스 버튼을 클릭했을 때 실행할 이벤트 핸들러 함수를 등록한다.
 	$("#btn-minus-quantity").click(function() {
 		var quantity = parseInt($quantityField.val());
-		if (!quantity) {
-			$quantityField.val("1");
-			return;
-		}
+	
 		if (quantity <= 1) {
 			$quantityField.val("1");
 			return;
@@ -119,12 +118,10 @@ $(function() {
 		$quantityField.val(quantity - 1);
 	});
 	
+	// 수량의 플러스 버튼을 클릭했을 때 실행할 이벤트 핸들러 함수를 등록한다.
 	$("#btn-plus-quantity").click(function() {
 		var quantity = parseInt($quantityField.val());
-		if (!quantity) {
-			$quantityField.val("1");
-			return;
-		}
+		
 		if (quantity >= 9) {
 			$quantityField.val("10");
 			return;
@@ -132,6 +129,7 @@ $(function() {
 		$quantityField.val(quantity + 1);
 	});
 	
+	// 카트에 담기 버튼을 클릭했을 때 실행할 이벤트 핸들러 함수를 등록한다.
 	$("#btn-add-cart").click(function() {
 		$("#form-order").attr("action", "/cart/add").trigger("submit");
 	});

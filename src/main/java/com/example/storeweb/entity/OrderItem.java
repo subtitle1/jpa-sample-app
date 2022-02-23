@@ -2,6 +2,7 @@ package com.example.storeweb.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,12 +24,12 @@ public class OrderItem extends BaseTimeEntity {
     @Column(name = "order_item_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "book_id")
     private Book book;
 
     @Column(name = "order_item_price")

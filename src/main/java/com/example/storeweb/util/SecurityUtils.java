@@ -17,6 +17,7 @@ public class SecurityUtils {
 	 * @return 사용자 아이디
 	 */
 	public static Long getMemberId() {
+		// SecurityContextHolder -> 인증된 사용자의 정보를 세션에서 가져온다
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User) authentication.getPrincipal();
 		return user.getId();
