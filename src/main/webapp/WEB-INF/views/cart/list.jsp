@@ -23,7 +23,7 @@
     <div class="row mb-2">
 		<div class="col">
 			<p>장바구니에 담기 책 목록을 확인하세요</p>
-			<form id="form-cart-item-list" method="get" action="cart/order">
+			<form id="form-cart-item-list" method="get" action="order">
 				<table class="table" id="table-cart-items">
 					<colgroup>
 						<col width="5%">

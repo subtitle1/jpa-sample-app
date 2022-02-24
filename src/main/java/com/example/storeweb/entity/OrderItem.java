@@ -11,8 +11,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -37,5 +39,21 @@ public class OrderItem extends BaseTimeEntity {
 
     @Column(name = "order_item_quantity")
     private int quantity;
+    
+    public OrderItem(Book book, int price, int quantity) {
+    	this.book = book;
+    	this.price = price;
+    	this.quantity = quantity;
+    }
+    
+    public int getItemPrice() {
+    	return book.getPrice()*quantity;
+    }
+    public int getItemSellPrice() {
+    	return book.getDiscountPrice()*quantity;
+    }
+    public int getItemDiscountPrice() {
+    	return getItemPrice() - getItemSellPrice();
+    }
 
 }

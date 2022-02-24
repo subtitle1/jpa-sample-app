@@ -34,7 +34,6 @@ public class CartItem extends BaseTimeEntity {
     @Column(name = "cart_item_quantity")
     private int quantity;
 
-    // 비즈니스 로직의 요구사항에 맞는 getter 메소드를 추가로 정의해도 상관없다.
     public int getItemPrice() {
     	return book.getPrice()*quantity;
     }

@@ -11,6 +11,7 @@ import com.example.storeweb.entity.Member;
 import com.example.storeweb.repository.BookRepository;
 import com.example.storeweb.repository.CartItemRepository;
 import com.example.storeweb.repository.MemberRepository;
+import com.example.storeweb.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,53 +23,54 @@ public class CartItemService {
 	private final CartItemRepository cartItemRepository;
 	private final MemberRepository memberRepository;
 	
-	public void insertCartItem(long memberId, long bookId, int quantity) {
-		
+	public void insertCartItem(long bookId, int quantity) {
+		long memberId = SecurityUtils.getMemberId();		
 		Optional<CartItem> optional = cartItemRepository.findByMemberIdAndBookId(memberId, bookId);
+		
 		if (optional.isEmpty()) {
 			Member member = memberRepository.getById(memberId);
 			Book book = bookRepository.getById(bookId);
 			
-			CartItem cartItem = new CartItem(); // CartItem 객체는 비영속 상태이다.
+			CartItem cartItem = new CartItem();
 			cartItem.setMember(member);
 			cartItem.setBook(book);
 			cartItem.setQuantity(quantity);
 			
-			cartItemRepository.save(cartItem); // 영속성 컨텍스트에 엔티티 객체를 새로 등록시켜서 영속 상태로 만든다.
-											   // 트랜잭션 종료 시점에 insert 쿼리가 실행되고, 데이터베이스에 추가된다.
+			cartItemRepository.save(cartItem);
 			
 		} else {
-			CartItem cartItem = optional.get(); // cartItem 객체는 영속 상태다.
-			cartItem.setQuantity(cartItem.getQuantity() + quantity); // 영속상태에 있는 엔티티 객체의 필드값 변경
+			CartItem cartItem = optional.get();
+			cartItem.setQuantity(cartItem.getQuantity() + quantity);
 			
-			cartItemRepository.save(cartItem); // cartItem은 이미 영속성 컨텍스트에 등록되어 있는 객체이기 때문에 트랜잭션 종료시점에 update 쿼리가 실행되고, 
-											   // 변경 내용이 데이터베이스에 추가된다.
+			cartItemRepository.save(cartItem);
 		}
 		
 	}
 
-	public List<CartItem> getCartItems(long memberId) {
+	public List<CartItem> getCartItems() {
+		long memberId = SecurityUtils.getMemberId();
 		return cartItemRepository.findAllByMemberId(memberId);
 	}
+	
+	public List<CartItem> getCartItems(List<Long> cartItemIds) {
+		return cartItemRepository.findAllById(cartItemIds);
+	}
 
-	public void updateCartItem(long memberId, long cartItemId, int quantity) {
+	public void updateCartItem(long cartItemId, int quantity) {
+		long memberId = SecurityUtils.getMemberId();
 		CartItem cartItem = cartItemRepository.getById(cartItemId);
-		
 		if (cartItem.getMember().getId() == memberId) {
 			cartItem.setQuantity(quantity);
 			cartItemRepository.save(cartItem);
 		}		
 	}
 
-	public void deleteCartItem(long memberId, List<Long> cartItemIds) {
-		for (long cartItemId : cartItemIds) {
-			CartItem cartItem = cartItemRepository.getById(cartItemId);
-			
-			if (cartItem.getMember().getId() == memberId) {
-				cartItemRepository.delete(cartItem);
-			}	
-		}
+	public void deleteCartItem(List<Long> cartItemIds) {
+		long memberId = SecurityUtils.getMemberId();
 		
+		for (long cartItemId : cartItemIds) {
+			cartItemRepository.deleteByIdAndMemberId(cartItemId, memberId);
+		}
 	}
 	
 }

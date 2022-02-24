@@ -21,8 +21,10 @@
         </div>
     </div>
     <div class="row mb-3">
-		<div class="col-10">
+    	<div class="col-12">
 			<p>도서 정보를 확인하세요</p>
+    	</div>
+		<div class="col-10">
 			<table class="table">
 				<colgroup>
 					<col width="15%">
@@ -66,7 +68,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="col-2 mt-5">
+		<div class="col-2">
 			<div class="row mb-3">
 				<div class="col">
 					<div class="card">
