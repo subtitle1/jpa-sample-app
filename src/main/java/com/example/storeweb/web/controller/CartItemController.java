@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.storeweb.entity.CartItem;
 import com.example.storeweb.entity.OrderItem;
 import com.example.storeweb.service.CartItemService;
+import com.example.storeweb.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ public class CartItemController {
 		log.info("book_id [" + bookId + "]");
 		log.info("quantity [" + quantity + "]");
 		
-		cartItemService.insertCartItem(bookId, quantity);
+		cartItemService.insertCartItem(bookId, quantity, SecurityUtils.getMemberId());
 		
 		return "redirect:/cart/list";
 	}
@@ -59,7 +60,7 @@ public class CartItemController {
 		log.info("cart_item_id [" + cartItemId + "]");
 		log.info("quantity [" + quantity + "]");
 		
-		cartItemService.updateCartItem(cartItemId, quantity);
+		cartItemService.updateCartItem(cartItemId, quantity, SecurityUtils.getMemberId());
 		
 		return "redirect:/cart/list";
 	}
@@ -69,7 +70,7 @@ public class CartItemController {
 		log.info("장바구니 아이템 삭제하기");
 		log.info("삭제할 cart_item_id [" + cartItemIds + "]");
 		
-		cartItemService.deleteCartItem(cartItemIds);
+		cartItemService.deleteCartItem(cartItemIds, SecurityUtils.getMemberId());
 		
 		return "redirect:/cart/list";
 	}
@@ -81,11 +82,12 @@ public class CartItemController {
 		
 		List<CartItem> cartItems = cartItemService.getCartItems(cartItemIds);
 		
-		int totalPrice = cartItems.stream().mapToInt(cartItem -> cartItem.getItemPrice()).sum();
+		int totalBookPrice = cartItems.stream().mapToInt(cartItem -> cartItem.getItemPrice()).sum();
 		int totalPaymentPrice = cartItems.stream().mapToInt(cartItem -> cartItem.getItemSellPrice()).sum();
 		
-		model.addAttribute("totalPrice", totalPrice);
-		model.addAttribute("totalDiscountPrice", totalPrice - totalPaymentPrice);
+		model.addAttribute("totalBookPrice", totalBookPrice);
+		model.addAttribute("totalDiscountPrice", totalBookPrice - totalPaymentPrice);
+		model.addAttribute("totalOrderPrice", totalPaymentPrice);
 		model.addAttribute("totalPaymentPrice", totalPaymentPrice);
 		
 		List<OrderItem> orderItems = cartItems.stream()

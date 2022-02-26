@@ -16,7 +16,7 @@ public class SecurityUtils {
 	 * 인증된 사용자의 회원아이디를 반환한다.
 	 * @return 사용자 아이디
 	 */
-	public static Long getMemberId() {
+	public static long getMemberId() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User) authentication.getPrincipal();
 		return user.getId();

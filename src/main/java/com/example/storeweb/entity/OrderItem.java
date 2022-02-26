@@ -46,14 +46,14 @@ public class OrderItem extends BaseTimeEntity {
     	this.quantity = quantity;
     }
     
-    public int getItemPrice() {
+    public int getTotalBookPrice() {
     	return book.getPrice()*quantity;
     }
-    public int getItemSellPrice() {
+    public int getTotalOrderPrice() {
     	return book.getDiscountPrice()*quantity;
     }
-    public int getItemDiscountPrice() {
-    	return getItemPrice() - getItemSellPrice();
+    public int getTotalDiscountPrice() {
+    	return getTotalBookPrice() - getTotalOrderPrice();
     }
 
 }

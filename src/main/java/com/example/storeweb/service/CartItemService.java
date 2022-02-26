@@ -23,8 +23,7 @@ public class CartItemService {
 	private final CartItemRepository cartItemRepository;
 	private final MemberRepository memberRepository;
 	
-	public void insertCartItem(long bookId, int quantity) {
-		long memberId = SecurityUtils.getMemberId();		
+	public void insertCartItem(long bookId, int quantity, long memberId) {
 		Optional<CartItem> optional = cartItemRepository.findByMemberIdAndBookId(memberId, bookId);
 		
 		if (optional.isEmpty()) {
@@ -56,8 +55,7 @@ public class CartItemService {
 		return cartItemRepository.findAllById(cartItemIds);
 	}
 
-	public void updateCartItem(long cartItemId, int quantity) {
-		long memberId = SecurityUtils.getMemberId();
+	public void updateCartItem(long cartItemId, int quantity, long memberId) {
 		CartItem cartItem = cartItemRepository.getById(cartItemId);
 		if (cartItem.getMember().getId() == memberId) {
 			cartItem.setQuantity(quantity);
@@ -65,9 +63,7 @@ public class CartItemService {
 		}		
 	}
 
-	public void deleteCartItem(List<Long> cartItemIds) {
-		long memberId = SecurityUtils.getMemberId();
-		
+	public void deleteCartItem(List<Long> cartItemIds, long memberId) {
 		for (long cartItemId : cartItemIds) {
 			cartItemRepository.deleteByIdAndMemberId(cartItemId, memberId);
 		}

@@ -41,12 +41,16 @@ public class BookController {
 		
 		// 페이징처리에 필요한 Pageable 구현객체 획득하기(Pageable객체는 페이징처리를 위한 SQL 작성에 필요한 정보를 포함하는 객체다.)
 		Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by(Direction.valueOf(sortItems[0]), sortItems[1]));
+		
 		// Spring Data JPA의 페이징처리 SQL 조회결과를 포함하고 있는 Page<T>객체 획득하기
 		Page<Book> page = bookService.getBooks(pageable);
 		
+		// Page객체에서 책목록을 조회한다.
+		List<Book> books = page.getContent();		
+		// Page객체가 제공하는 값(현재페이지번호, 총 페이지 갯수 등)을 활용해서 이 애플리케이션의 페이지내비게이션 구현에 필요한 정보를 제공하는 Pagination객체를 생성한다.
 		Pagination pagination = new Pagination(page.getNumber() + 1, 5, page.getTotalPages());
 		
-		List<Book> books = page.getContent();
+		// 뷰 페이지에 책목록, 페이지내비게이션구현에 필요한 객체를 전달한다.
 		model.addAttribute("books", books);
 		model.addAttribute("pagination", pagination);
 		

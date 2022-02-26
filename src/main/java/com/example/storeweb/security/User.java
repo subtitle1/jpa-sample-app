@@ -9,25 +9,23 @@ import com.example.storeweb.entity.Member;
 
 import lombok.ToString;
 
-@ToString(of = {"id", "email", "name", "tel", "enabled", "authorities"})
+@ToString(of = {"id", "email", "name", "enabled", "authorities"})
 public class User implements UserDetails {
 	
 	private static final long serialVersionUID = -8513640359886600514L;
 	
-	private Long id;
-	private String email;
-	private String password;
-	private String name;
-	private String tel;
-	private boolean enabled;
-	private Collection<? extends GrantedAuthority> authorities;
+	private Long id;												// 회원아이디, Member 엔티티의 id값이 저장된다.
+	private String email;											// 이메일
+	private String password;										// 암호화된 비밀번호
+	private String name;											// 회원 이름
+	private boolean enabled;										// 회원계정 활성화 여부
+	private Collection<? extends GrantedAuthority> authorities;		// 회원이 보유하고 잇는 권한
 
 	public User(Member member, Collection<? extends GrantedAuthority> authorities) {
 		this.id = member.getId();
 		this.email = member.getEmail();
 		this.password = member.getPassword();
 		this.name = member.getName();
-		this.tel = member.getTel();
 		this.enabled = member.isEnabled();
 		this.authorities = authorities;
 	}
@@ -48,10 +46,6 @@ public class User implements UserDetails {
 
 	public String getName() {
 		return name;
-	}
-	
-	public String getTel() {
-		return tel;
 	}
 
 	@Override

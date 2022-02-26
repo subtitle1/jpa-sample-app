@@ -3,15 +3,12 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 	<div class="container">
 		<ul class="navbar-nav me-auto">
-			<li class="nav-item"><a class="nav-link ${menu eq 'home' ? 'active' : '' }" href="/">홈</a></li>
-			<li class="nav-item"><a class="nav-link ${menu eq 'book' ? 'active' : '' }" href="/book/list">책</a></li>
-			<li class="nav-item"><a class="nav-link ${menu eq 'cart' ? 'active' : '' }" href="/cart/list">장바구니</a></li>
+			<li class="nav-item"><a class="nav-link ${menu eq 'home' ? 'active' : '' }" href="/">북스토어</a></li>
+			<li class="nav-item"><a class="nav-link ${menu eq 'book' ? 'active' : '' }" href="/book/list">도서목록</a></li>
 		</ul>
-		<sec:authorize access="isAuthenticated()">
-			<sec:authentication property="principal" var="user"/>
-			<span class="navbar-text"><strong class="text-white">${user.name }</strong>님 환영합니다.</span>
-		</sec:authorize>
 		<ul class="navbar-nav">
+			<li class="nav-item"><a class="nav-link ${menu eq 'cart' ? 'active' : '' }" href="/cart/list">카트</a></li>
+			<li class="nav-item"><a class="nav-link ${menu eq 'order' ? 'active' : '' }" href="/member/order/list">주문내역</a></li>
 			<sec:authorize access="!isAuthenticated()">
 				<li class="nav-item"><a class="nav-link ${menu eq 'login' ? 'active' : '' }" href="/login">로그인</a></li>
 				<li class="nav-item"><a class="nav-link ${menu eq 'register' ? 'active' : '' }" href="/register">회원가입</a></li>

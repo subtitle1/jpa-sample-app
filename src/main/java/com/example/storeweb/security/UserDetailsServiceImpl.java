@@ -23,6 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final MemberRepository memberRepository;
 	
+	// 인증에 필요한 사용자정보를 조회해서 UserDetails 인터페이스 구현객체(이 애플리케이션에서는 User객체다)로 반환한 메소드
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<Member> optional = memberRepository.findByEmail(email);
@@ -31,6 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return new User(member, this.getAuthorities(member.getRole()));
 	}
 	
+	// 사용자가 보유한 권한정보로 SimpleGrantedAuthority객체를 생성해서 반환하는 메소드다.
 	private Collection<? extends GrantedAuthority> getAuthorities(Role role) {
 		return List.of(new SimpleGrantedAuthority(role.name()));
 	}
